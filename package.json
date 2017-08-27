@@ -12,5 +12,12 @@
   "bugs": {
     "url": "https://github.com/okwolf/hyperapp-freeze/issues"
   },
-  "homepage": "https://github.com/okwolf/hyperapp-freeze"
+  "homepage": "https://github.com/okwolf/hyperapp-freeze",
+  "devDependencies": {
+    "hyperapp": "^0.12.0",
+    "jest": "^20.0.4"
+  },
+  "scripts": {
+    "test": "jest"
+  }
 }
