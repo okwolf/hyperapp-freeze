@@ -1,0 +1,16 @@
+{
+  "name": "hyperapp-freeze",
+  "version": "0.0.1",
+  "description": "Deep-freeze mixin for Hyperapp",
+  "main": "dist/freeze.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/okwolf/hyperapp-freeze.git"
+  },
+  "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/okwolf/hyperapp-freeze/issues"
+  },
+  "homepage": "https://github.com/okwolf/hyperapp-freeze"
+}
