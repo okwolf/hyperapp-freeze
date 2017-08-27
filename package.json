@@ -1,8 +1,8 @@
 {
   "name": "hyperapp-freeze",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Deep-freeze mixin for Hyperapp",
-  "main": "dist/freeze.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/okwolf/hyperapp-freeze.git"
