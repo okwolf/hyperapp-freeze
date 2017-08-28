@@ -11,7 +11,7 @@ const mutatingApp = assert => ({
     }
   },
   actions: {
-    inc(state) {
+    mutate(state) {
       state.counter++;
       state.canAdd = true;
       delete state.canDelete;
@@ -23,7 +23,7 @@ const mutatingApp = assert => ({
   },
   events: {
     load(state, actions) {
-      actions.inc();
+      actions.mutate();
       assert(state);
     }
   }
