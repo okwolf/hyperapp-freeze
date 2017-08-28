@@ -33,8 +33,11 @@
   return function() {
     return {
       events: {
-        load(state) {
+        load(state, actions) {
           deepFreeze(state);
+        },
+        update(state, actions, nextState) {
+          deepFreeze(nextState);
         }
       }
     };
