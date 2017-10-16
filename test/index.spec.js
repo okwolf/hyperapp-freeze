@@ -63,10 +63,10 @@ it("prevents Hyperapp state mutations in actions", done =>
     Object.assign(createMutatingApp(), {
       init(state, actions) {
         expect(actions.mutate).toThrowError(
-          /Cannot assign to read only property/
+          /assign to read only property/
         )
         expect(actions.child.mutate).toThrowError(
-          /Cannot assign to read only property/
+          /assign to read only property/
         )
         expect(state).toEqual({
           counter: 0,
@@ -85,10 +85,10 @@ it("prevents Hyperapp state mutations in module actions", done =>
   freeze(app)({
     init(state, actions) {
       expect(actions.mutating.mutate).toThrowError(
-        /Cannot assign to read only property/
+        /assign to read only property/
       )
       expect(actions.mutating.child.mutate).toThrowError(
-        /Cannot assign to read only property/
+        /assign to read only property/
       )
       expect(state).toEqual({
         mutating: {
@@ -109,12 +109,12 @@ it("prevents Hyperapp state mutations in view", done =>
   freeze(app)(
     Object.assign(createMutatingApp(), {
       view(state) {
-        expect(() => (state.canAdd = true)).toThrowError(/Cannot add property/)
+        expect(() => (state.canAdd = true)).toThrowError(/add property/)
         expect(() => delete state.canDelete).toThrowError(
-          /Cannot delete property/
+          /delete property/
         )
         expect(() => state.counter++).toThrowError(
-          /Cannot assign to read only property/
+          /assign to read only property/
         )
         return h("main", {
           oncreate() {
