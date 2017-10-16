@@ -1,5 +1,7 @@
 # hyperapp-freeze
 
+[![Build Status](https://travis-ci.org/okwolf/hyperapp-freeze.svg?branch=hoa)](https://travis-ci.org/okwolf/hyperapp-freeze)
+[![Codecov](https://img.shields.io/codecov/c/github/okwolf/hyperapp-freeze/hoa.svg)](https://codecov.io/gh/okwolf/hyperapp-freeze)
 [![npm](https://img.shields.io/npm/v/hyperapp-freeze.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/hyperapp-freeze)
 
 A [HyperApp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hyperapp/hyperapp/blob/master/docs/mixins.md) that [deep freeze](https://github.com/substack/deep-freeze)s your state on load to give you an error during development if you accidently mutate state directly. Heavily inspired by [redux-freeze](https://github.com/buunguyen/redux-freeze).
