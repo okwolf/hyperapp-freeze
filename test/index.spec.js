@@ -62,9 +62,7 @@ it("prevents Hyperapp state mutations in actions", done =>
   freeze(app)(
     Object.assign(createMutatingApp(), {
       init(state, actions) {
-        expect(actions.mutate).toThrowError(
-          /assign to read only property/
-        )
+        expect(actions.mutate).toThrowError(/assign to read only property/)
         expect(actions.child.mutate).toThrowError(
           /assign to read only property/
         )
@@ -110,9 +108,7 @@ it("prevents Hyperapp state mutations in view", done =>
     Object.assign(createMutatingApp(), {
       view(state) {
         expect(() => (state.canAdd = true)).toThrowError(/add property/)
-        expect(() => delete state.canDelete).toThrowError(
-          /delete property/
-        )
+        expect(() => delete state.canDelete).toThrowError(/delete property/)
         expect(() => state.counter++).toThrowError(
           /assign to read only property/
         )
