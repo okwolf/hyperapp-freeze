@@ -1,7 +1,7 @@
 {
   "name": "hyperapp-freeze",
   "version": "0.1.0",
-  "description": "Deep-freeze mixin for Hyperapp",
+  "description": "Deep-freeze your Hyperapp state to keep you honest about immutability.",
   "main": "dist/freeze.js",
   "jsnext:main": "src/index.js",
   "module": "src/index.js",
