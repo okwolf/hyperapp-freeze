@@ -41,3 +41,7 @@ freeze(app)({
 ```
 
 And your state is now frozen! ❄️
+
+## License
+
+hyperapp-freeze is MIT licensed. See [LICENSE](LICENSE.md).
