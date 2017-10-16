@@ -1,7 +1,7 @@
 import deepCopy from "deepcopy"
 import deepFreeze from "deep-freeze"
 
-export default function freeze(app) {
+export default function(app) {
   function freeze(value) {
     return deepFreeze(deepCopy(value))
   }
