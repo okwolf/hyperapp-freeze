@@ -4,46 +4,40 @@
 [![Codecov](https://img.shields.io/codecov/c/github/okwolf/hyperapp-freeze/hoa.svg)](https://codecov.io/gh/okwolf/hyperapp-freeze)
 [![npm](https://img.shields.io/npm/v/hyperapp-freeze.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/hyperapp-freeze)
 
-A [HyperApp](https://github.com/hyperapp/hyperapp) [mixin](https://github.com/hyperapp/hyperapp/blob/master/docs/mixins.md) that [deep freeze](https://github.com/substack/deep-freeze)s your state on load to give you an error during development if you accidently mutate state directly. Heavily inspired by [redux-freeze](https://github.com/buunguyen/redux-freeze).
+A [HyperApp](https://github.com/hyperapp/hyperapp) higher-order `app` that [deep freeze](https://github.com/substack/deep-freeze)s the `state` passed to each of your `actions` and `view`, giving you an error during development if you accidently mutate state directly. Heavily inspired by [redux-freeze](https://github.com/buunguyen/redux-freeze).
 
-## Install
+## Installation
 
-### npm
+### Node.js
 
-```sh
-npm install hyperapp-freeze
-```
+Install with npm / Yarn.
 
-### Yarn
+<pre>
+npm i <a href="https://www.npmjs.com/package/hyperapp-freeze">hyperapp-freeze</a>
+</pre>
 
-```sh
-yarn add hyperapp-freeze
-```
+Then with a module bundler like [rollup](https://github.com/rollup/rollup) or [webpack](https://github.com/webpack/webpack) use as you would anything else.
 
-## Usage
-
-### ES6 Node
-
-```js
-import freeze from 'hyperapp-freeze';
-...
-app({
-  ...
-  mixins: [freeze]
-})
-```
-
-### ES5 Node
-
-```js
-const freeze = require('hyperapp-freeze');
-...
-app({
-  ...
-  mixins: [freeze]
-})
+```jsx
+import freeze from "hyperapp-freeze"
 ```
 
 ### Browser
 
-Because this package exports as UMD you can add it to an existing HTML/pen with the following script: `https://unpkg.com/hyperapp-freeze` (For [CodePen](https://codepen.io) this is under Settings -> JavaScript -> Add External JavaScript). Then you just need to add the mixin to your app: `mixins: [hyperappFreeze]` and your state is now frozen! ❄️
+Download the minified library from the [CDN](https://unpkg.com/hyperapp-freeze).
+
+```html
+<script src="https://unpkg.com/hyperapp-freeze"></script>
+```
+
+You can find the library in `window.freeze`.
+
+## Usage
+
+```js
+freeze(app)({
+  // ...
+})
+```
+
+And your state is now frozen! ❄️
