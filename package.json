@@ -1,23 +1,50 @@
 {
   "name": "hyperapp-freeze",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Deep-freeze mixin for Hyperapp",
-  "main": "index.js",
+  "main": "dist/freeze.js",
+  "jsnext:main": "src/index.js",
+  "module": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/okwolf/hyperapp-freeze.git"
+  },
+  "files": [
+    "src/**",
+    "dist/**"
+  ],
+  "scripts": {
+    "test": "jest --coverage --no-cache",
+    "build": "npm run bundle && npm run minify",
+    "bundle": "rollup -c",
+    "minify": "uglifyjs dist/freeze.js -o dist/freeze.js --mangle --compress --source-map dist/freeze.js.map",
+    "prepare": "npm run build",
+    "format": "prettier --semi false --write '{src,test}/**/*.js'"
+  },
+  "babel": {
+    "presets": "env"
+  },
+  "dependencies": {
+    "deep-freeze": "^0.0.1",
+    "deepcopy": "^0.6.3"
+  },
+  "peerDependencies": {
+    "hyperapp": "^0.15.1"
+  },
+  "devDependencies": {
+    "babel-preset-env": "1.6.0",
+    "hyperapp": "^0.15.1",
+    "jest": "^21.2.1",
+    "prettier": "~1.7.4",
+    "rollup": "^0.50.0",
+    "rollup-plugin-commonjs": "^8.2.1",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "uglify-js": "^2.7.5"
   },
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/okwolf/hyperapp-freeze/issues"
   },
-  "homepage": "https://github.com/okwolf/hyperapp-freeze",
-  "devDependencies": {
-    "hyperapp": "^0.12.0",
-    "jest": "^20.0.4"
-  },
-  "scripts": {
-    "test": "jest"
-  }
+  "homepage": "https://github.com/okwolf/hyperapp-freeze"
 }
