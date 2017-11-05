@@ -1,20 +1,15 @@
-import deepCopy from "deepcopy"
 import deepFreeze from "deep-freeze"
 
 export default function(app) {
-  function frozenCopy(value) {
-    return deepFreeze(deepCopy(value))
-  }
   return function(props) {
     function enhanceActions(actions) {
       return Object.keys(actions || {}).reduce(function(otherActions, name) {
         var action = actions[name]
         otherActions[name] =
           typeof action === "function"
-            ? function(state, actions, data) {
-                var frozenState = frozenCopy(state)
-                var result = action(frozenState, actions, data)
-                return deepCopy(result)
+            ? function(state, actions) {
+                deepFreeze(state)
+                return action(state, actions)
               }
             : enhanceActions(action)
         return otherActions
@@ -32,9 +27,9 @@ export default function(app) {
     enhanceModules(props)
     if (props.view) {
       var originalView = props.view
-      props.view = function(state, actions) {
-        var frozenState = frozenCopy(state)
-        return originalView(frozenState, actions)
+      props.view = function(state) {
+        deepFreeze(state)
+        return originalView.apply(null, arguments)
       }
     }
     var appActions = app(props)

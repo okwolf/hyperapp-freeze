@@ -1,8 +1,6 @@
 import { app, h } from "hyperapp"
 import freeze from "../src"
 
-window.requestAnimationFrame = process.nextTick
-
 const createMutatingApp = () => ({
   state: {
     counter: 0,
@@ -13,6 +11,7 @@ const createMutatingApp = () => ({
     }
   },
   actions: {
+    get: state => state,
     mutate(state) {
       state.counter++
       state.canAdd = true
@@ -32,76 +31,69 @@ const createMutatingApp = () => ({
   }
 })
 
-test("without actions", done =>
+it("handles no actions", done =>
   freeze(app)({
-    init() {
-      done()
-    }
+    view: () => done()
   }))
 
-it("is needed because Hyperapp allows state mutations", done =>
-  app(
-    Object.assign(createMutatingApp(), {
-      init(state, actions) {
-        actions.mutate()
-        actions.child.mutate()
-        expect(state).toEqual({
-          counter: 1,
-          canAdd: true,
-          child: {
-            isFrozen: false,
-            canAdd: true
-          }
-        })
-        done()
-      }
-    })
-  ))
+it("is needed because Hyperapp allows state mutations", () => {
+  const actions = app(createMutatingApp())
+  actions.mutate()
+  actions.child.mutate()
+  expect(actions.get()).toEqual({
+    counter: 1,
+    canAdd: true,
+    child: {
+      isFrozen: false,
+      canAdd: true
+    }
+  })
+})
 
-it("prevents Hyperapp state mutations in actions", done =>
-  freeze(app)(
-    Object.assign(createMutatingApp(), {
-      init(state, actions) {
-        expect(actions.mutate).toThrowError(/assign to read only property/)
-        expect(actions.child.mutate).toThrowError(
-          /assign to read only property/
-        )
-        expect(state).toEqual({
-          counter: 0,
-          canDelete: false,
-          child: {
-            isFrozen: true,
-            canDelete: false
-          }
-        })
-        done()
-      }
-    })
-  ))
+it("prevents Hyperapp state mutations", () => {
+  const actions = freeze(app)(createMutatingApp())
+  const state = actions.get()
+  expect(() => (state.canAdd = true)).toThrowError(/add property/)
+  expect(() => delete state.canDelete).toThrowError(/delete property/)
+  expect(() => state.counter++).toThrowError(/assign to read only property/)
+})
 
-it("prevents Hyperapp state mutations in module actions", done =>
-  freeze(app)({
-    init(state, actions) {
-      expect(actions.mutating.mutate).toThrowError(
-        /assign to read only property/
-      )
-      expect(actions.mutating.child.mutate).toThrowError(
-        /assign to read only property/
-      )
-      expect(state).toEqual({
-        mutating: {
-          counter: 0,
-          canDelete: false,
-          child: {
-            isFrozen: true,
-            canDelete: false
-          }
-        }
-      })
-      done()
+it("prevents Hyperapp state mutations in actions", () => {
+  const actions = freeze(app)(createMutatingApp())
+  expect(actions.mutate).toThrowError(/assign to read only property/)
+  expect(actions.child.mutate).toThrowError(/assign to read only property/)
+  expect(actions.get()).toEqual({
+    counter: 0,
+    canDelete: false,
+    child: {
+      isFrozen: true,
+      canDelete: false
+    }
+  })
+})
+
+it("prevents Hyperapp state mutations in module actions", () => {
+  const actions = freeze(app)({
+    actions: {
+      get: state => state
     },
     modules: { mutating: createMutatingApp() }
-  }))
+  })
+  expect(actions.mutating.mutate).toThrowError(/assign to read only property/)
+  expect(actions.mutating.child.mutate).toThrowError(
+    /assign to read only property/
+  )
+  expect(actions.get()).toEqual({
+    mutating: {
+      counter: 0,
+      canDelete: false,
+      child: {
+        isFrozen: true,
+        canDelete: false
+      }
+    }
+  })
+})
 
 it("prevents Hyperapp state mutations in view", done =>
   freeze(app)(
@@ -121,25 +113,26 @@ it("prevents Hyperapp state mutations in view", done =>
     })
   ))
 
-test("doesn't interfere with immutable state updates", done =>
-  freeze(app)({
-    init(state, actions) {
-      expect(state).toEqual({
-        value: 0
-      })
-
-      expect(actions.up()).toEqual({
-        value: 1
-      })
-
-      done()
-    },
+it("doesn't interfere with immutable state updates", () => {
+  const actions = freeze(app)({
     state: {
       value: 0
     },
     actions: {
-      up: state => ({
-        value: state.value + 1
+      get: state => state,
+      up: state => by => ({
+        value: state.value + by
       })
     }
-  }))
+  })
+  expect(actions.get()).toEqual({
+    value: 0
+  })
+
+  expect(actions.up(2)).toEqual({
+    value: 2
+  })
+
+  const state = actions.get()
+  expect(() => state.value++).toThrowError(/assign to read only property/)
+})
