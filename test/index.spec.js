@@ -11,8 +11,8 @@ const createMutatingApp = () => ({
     }
   },
   actions: {
-    get: state => state,
-    mutate(state) {
+    get: () => state => state,
+    mutate: () => state => {
       state.counter++
       state.canAdd = true
       delete state.canDelete
@@ -22,7 +22,7 @@ const createMutatingApp = () => ({
       delete state.child.canDelete
     },
     child: {
-      mutate(state) {
+      mutate: () => state => {
         state.isFrozen = false
         state.canAdd = true
         delete state.canDelete
@@ -72,29 +72,6 @@ it("prevents Hyperapp state mutations in actions", () => {
   })
 })
 
-it("prevents Hyperapp state mutations in module actions", () => {
-  const actions = freeze(app)({
-    actions: {
-      get: state => state
-    },
-    modules: { mutating: createMutatingApp() }
-  })
-  expect(actions.mutating.mutate).toThrowError(/assign to read only property/)
-  expect(actions.mutating.child.mutate).toThrowError(
-    /assign to read only property/
-  )
-  expect(actions.get()).toEqual({
-    mutating: {
-      counter: 0,
-      canDelete: false,
-      child: {
-        isFrozen: true,
-        canDelete: false
-      }
-    }
-  })
-})
-
 it("prevents Hyperapp state mutations in view", done =>
   freeze(app)(
     Object.assign(createMutatingApp(), {
@@ -119,8 +96,8 @@ it("doesn't interfere with immutable state updates", () => {
       value: 0
     },
     actions: {
-      get: state => state,
-      up: state => by => ({
+      get: () => state => state,
+      up: by => state => ({
         value: state.value + by
       })
     }

@@ -7,24 +7,23 @@ export default function(app) {
         var action = actions[name]
         otherActions[name] =
           typeof action === "function"
-            ? function(state, actions) {
-                deepFreeze(state)
-                return action(state, actions)
+            ? function(data) {
+              return function(state) {
+                return function(actions) {
+                  deepFreeze(state)
+                  var result = action(data)
+                  result = typeof result === "function" ? result(state) : result
+                  result = typeof result === "function" ? result(actions) : result
+                  return result
+                }
               }
+            }
             : enhanceActions(action)
         return otherActions
       }, {})
     }
 
-    function enhanceModules(module) {
-      module.actions = enhanceActions(module.actions)
-
-      Object.keys(module.modules || {}).map(function(name) {
-        enhanceModules(module.modules[name])
-      })
-    }
-
-    enhanceModules(props)
+    props.actions = enhanceActions(props.actions)
     if (props.view) {
       var originalView = props.view
       props.view = function(state) {
