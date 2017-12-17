@@ -1,38 +1,41 @@
 import deepFreeze from "deep-freeze"
 
+var isFn = function(value) {
+  return typeof value === "function"
+}
+
+function enhanceActions(actionsTemplate) {
+  return Object.keys(actionsTemplate || {}).reduce(function(
+    otherActions,
+    name
+  ) {
+    var action = actionsTemplate[name]
+    otherActions[name] = isFn(action)
+      ? function(data) {
+          return function(state, actions) {
+            deepFreeze(state)
+            var result = action(data)
+            result = isFn(result) ? result(state, actions) : result
+            return result
+          }
+        }
+      : enhanceActions(action)
+    return otherActions
+  },
+  {})
+}
+
 export default function(app) {
-  return function(props) {
-    function enhanceActions(actions) {
-      return Object.keys(actions || {}).reduce(function(otherActions, name) {
-        var action = actions[name]
-        otherActions[name] =
-          typeof action === "function"
-            ? function(data) {
-              return function(state) {
-                return function(actions) {
-                  deepFreeze(state)
-                  var result = action(data)
-                  result = typeof result === "function" ? result(state) : result
-                  result = typeof result === "function" ? result(actions) : result
-                  return result
-                }
-              }
-            }
-            : enhanceActions(action)
-        return otherActions
-      }, {})
-    }
+  return function(initialState, actionsTemplate, view, container) {
+    var enhancedActions = enhanceActions(actionsTemplate)
+    var enhancedView = isFn(view)
+      ? function(state) {
+          deepFreeze(state)
+          return view.apply(null, arguments)
+        }
+      : undefined
 
-    props.actions = enhanceActions(props.actions)
-    if (props.view) {
-      var originalView = props.view
-      props.view = function(state) {
-        deepFreeze(state)
-        return originalView.apply(null, arguments)
-      }
-    }
-    var appActions = app(props)
-
+    var appActions = app(initialState, enhancedActions, enhancedView, container)
     return appActions
   }
 }

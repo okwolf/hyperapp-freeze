@@ -35,9 +35,7 @@ You can find the library in `window.freeze`.
 ## Usage
 
 ```js
-freeze(app)({
-  // ...
-})
+freeze(app)(state, actions, view, document.body)
 ```
 
 And your state is now frozen! ❄️
