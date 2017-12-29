@@ -1,7 +1,7 @@
 {
   "name": "hyperapp-freeze",
-  "version": "0.1.0",
-  "description": "Deep-freeze your Hyperapp state to keep you honest about immutability.",
+  "version": "0.2.0",
+  "description": "Deep-freeze your Hyperapp state to keep you honest about immutability",
   "main": "dist/freeze.js",
   "jsnext:main": "src/index.js",
   "module": "src/index.js",
@@ -17,7 +17,7 @@
     "test": "jest --coverage --no-cache",
     "build": "npm run bundle && npm run minify",
     "bundle": "rollup -c",
-    "minify": "uglifyjs dist/freeze.js -o dist/freeze.js --mangle --compress --source-map dist/freeze.js.map",
+    "minify": "uglifyjs dist/freeze.js -o dist/freeze.js -mc pure_funcs=Object.defineProperty --source-map includeSources,url=freeze.js.map",
     "prepare": "npm run build",
     "format": "prettier --semi false --write '{src,test}/**/*.js'"
   },
@@ -25,21 +25,20 @@
     "presets": "env"
   },
   "dependencies": {
-    "deep-freeze": "^0.0.1",
-    "deepcopy": "^0.6.3"
+    "deep-freeze": "^0.0.1"
   },
   "peerDependencies": {
-    "hyperapp": "^0.15.1"
+    "hyperapp": "^1.0.0"
   },
   "devDependencies": {
-    "babel-preset-env": "1.6.0",
-    "hyperapp": "^0.15.1",
+    "babel-preset-env": "^1.6.1",
+    "hyperapp": "^1.0.0",
     "jest": "^21.2.1",
-    "prettier": "~1.7.4",
-    "rollup": "^0.50.0",
+    "prettier": "^1.9.2",
+    "rollup": "^0.52.2",
     "rollup-plugin-commonjs": "^8.2.1",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "uglify-js": "^2.7.5"
+    "uglify-js": "^3.2.2"
   },
   "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
   "license": "MIT",
