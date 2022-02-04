@@ -2,7 +2,7 @@
   "name": "hyperapp-freeze",
   "version": "0.3.0",
   "description": "Deep-freeze your Hyperapp state to keep you honest about immutability",
-  "main": "dist/freeze.js",
+  "main": "dist/hyperappFreeze.js",
   "type": "module",
   "module": "src/index.js",
   "repository": {
