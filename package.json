@@ -14,18 +14,19 @@
     "dist/**"
   ],
   "scripts": {
+    "clean": "npx --ignore-existing --quiet rimraf coverage dist node_modules",
+    "format": "prettier --write \"{src,test}/**/*.js\"",
+    "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --no-cache",
-    "build": "npm run bundle && npm run minify",
-    "bundle": "rollup -c",
-    "minify": "uglifyjs dist/freeze.js -o dist/freeze.js -mc pure_funcs=Object.defineProperty --source-map includeSources,url=freeze.js.map",
-    "prepare": "npm run build",
-    "format": "prettier --write \"{src,test}/**/*.js\""
+    "bundle": "rollup -i src/index.js -o dist/hyperappFreeze.js -m -f umd -n hyperappFreeze",
+    "minify": "uglifyjs dist/hyperappFreeze.js -o dist/hyperappFreeze.js -mc pure_funcs=['Object.defineProperty'] --source-map includeSources,url=hyperappFreeze.js.map",
+    "check": "npm run format:check && npm t",
+    "build": "npm run check && npm run bundle && npm run minify",
+    "release:dry": "npm run clean && npm i && npm run check && npm run build",
+    "release": "node --experimental-json-modules release"
   },
   "jest": {
     "transform": {}
-  },
-  "dependencies": {
-    "deep-freeze": "=0.0.1"
   },
   "peerDependencies": {
     "hyperapp": "^2.0.0"
