@@ -1,10 +1,10 @@
 # Hyperapp Freeze
 
-[![Build Status](https://travis-ci.org/okwolf/hyperapp-freeze.svg?branch=master)](https://travis-ci.org/okwolf/hyperapp-freeze)
+[![Build Status](https://github.com/okwolf/hyperapp-freeze/actions/workflows/ci.yml/badge.svg)](https://github.com/okwolf/hyperapp-freeze/actions)
 [![Codecov](https://img.shields.io/codecov/c/github/okwolf/hyperapp-freeze/master.svg)](https://codecov.io/gh/okwolf/hyperapp-freeze)
 [![npm](https://img.shields.io/npm/v/hyperapp-freeze.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/hyperapp-freeze)
 
-A [Hyperapp](https://github.com/hyperapp/hyperapp) higher-order `app` that [deep freeze](https://github.com/substack/deep-freeze)s the state passed to each of your actions and view, giving you an error during development if you mutate state directly. If you or someone you love comes from an imperative programming background (where you might do things like `state++` instead of `return state + 1`) then this might be useful for you and your development team.
+A [Hyperapp](https://github.com/jorgebucaran/hyperapp) [dispatch initializer](https://github.com/jorgebucaran/hyperapp/blob/main/docs/architecture/dispatch.md#dispatch-initializer) that [deep freeze](https://github.com/substack/deep-freeze)s the state passed to each of your actions and view, giving you an error during development if you mutate state directly. If you or someone you love comes from an imperative programming background (where you might do things like `state++` instead of `return state + 1`) then this might be useful for you and your development team.
 
 Perhaps you work with backend developers who are perfectly competent engineers, but need some help adjusting to writing functional state updates and stateless components. Take Emily for example: she wants to show a list of items in the view ordered by a property of the user's choosing. Her array of items in the state is in a different order so she calls `sort` on the array from inside the view. Now there are weird bugs introduced because the array items in the state are in a different order. Emily's friend Sam sees the bug and adds Hyperapp Freeze to their dev build to complain loudly when evil direct state mutations are made. Sam catches the source of the bug, and updates the view to copy the array items before sorting them based on the user's preferences.
 
@@ -25,13 +25,13 @@ npm i <a href="https://www.npmjs.com/package/hyperapp-freeze">hyperapp-freeze</a
 Then with a module bundler like [rollup](https://github.com/rollup/rollup) or [webpack](https://github.com/webpack/webpack) use as you would anything else.
 
 ```js
-import freeze from "hyperapp-freeze"
+import freeze from "hyperapp-freeze";
 ```
 
 Or using require.
 
 ```js
-const freeze = require("hyperapp-freeze")
+const freeze = require("hyperapp-freeze");
 ```
 
 ### Browser
@@ -42,12 +42,17 @@ Download the minified library from the [CDN](https://unpkg.com/hyperapp-freeze).
 <script src="https://unpkg.com/hyperapp-freeze"></script>
 ```
 
-You can find the library in `window.freeze`.
+You can find the library in `window.hyperappFreeze`.
 
 ## Usage
 
 ```js
-freeze(app)(state, actions, view, document.body)
+app({
+  init,
+  view,
+  node,
+  dispatch: freeze
+});
 ```
 
 And your state is now frozen! ❄️
