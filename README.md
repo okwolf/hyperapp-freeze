@@ -1,6 +1,6 @@
 # Hyperapp Freeze
 
-[![Build Status](https://travis-ci.org/okwolf/hyperapp-freeze.svg?branch=master)](https://travis-ci.org/okwolf/hyperapp-freeze)
+[![Build Status](https://github.com/okwolf/hyperapp-freeze/actions/workflows/ci.yml/badge.svg)](https://github.com/okwolf/hyperapp-freeze/actions)
 [![Codecov](https://img.shields.io/codecov/c/github/okwolf/hyperapp-freeze/master.svg)](https://codecov.io/gh/okwolf/hyperapp-freeze)
 [![npm](https://img.shields.io/npm/v/hyperapp-freeze.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/hyperapp-freeze)
 
