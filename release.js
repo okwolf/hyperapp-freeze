@@ -1,5 +1,10 @@
 import { execSync } from "child_process";
 import packageJson from "./package.json";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const exec = command => execSync(command, { encoding: "utf8" }).trim();
 
 const exitWithError = error => {

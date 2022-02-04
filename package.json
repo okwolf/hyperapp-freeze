@@ -1,6 +1,6 @@
 {
   "name": "hyperapp-freeze",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Deep-freeze your Hyperapp state to keep you honest about immutability",
   "main": "dist/freeze.js",
   "type": "module",
